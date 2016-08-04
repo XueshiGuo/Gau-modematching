@@ -1,0 +1,36 @@
+# change values only in "general" part, don't change key
+# 50.0 rather than 50 might be necessary when unsing Python 2
+general:
+  unit: mm
+  path_length: 500.0
+# Now only lens works
+optics:
+  lens_1:
+    focal_length: 50.0
+    position: 50.0
+  lens_2:
+    focal_length: 25.4
+    position: 130.0
+# ---------------------------------   
+# Init. Methods ---- w_z_div, w0_z0
+# ---------------------------------  
+beam:
+  # Output of the fiber collimator f240apc-1550 from Thorlabs
+  collimator:
+    initialize_method: w_z_div
+    wavelength: 0.001552
+    refrective_n: 1.0
+    w_z:
+    # origin of optical path, z=0
+    - 0.8
+    - 0.0
+    # div in the unit of degree
+    div: 0.073
+  # Theoretical prediction of the SHG
+  SHG:
+    initialize_method: w0_z0
+    wavelength: 0.001552    
+    refrective_n: 1.0
+    w0_z0:
+    - 0.32
+    - 300.0   

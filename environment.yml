@@ -1,0 +1,16 @@
+name: gau
+dependencies:
+- python=3.4.2
+- numpy > 1.9
+- scipy
+- pandas
+- matplotlib
+- ipython
+- jupyter
+- nose
+- pyqtgraph
+- pip
+- pip:
+    - scp
+    - ruamel.yaml
+    - paramiko > 2.0
