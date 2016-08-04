@@ -5,6 +5,7 @@ import os
 from . import opo
 from . import abcd
 from . import memory
+from .optics import *
 import numpy as np
 #
 from numpy import pi, conj
@@ -76,26 +77,6 @@ class Gaussian_Beam(object):
     def get_R(self,z):
         p_= abs(self.z0-z)
         return p_*(1.0 + (self.zR / p_)**2 )
-#            
-class Optics(object):    
-    '''
-    All units are in mm
-    --------
-    An optics is defined by: 
-        start_position: the position of entering surface, 
-        stop_position: the position of exiting surface,
-        abcd_matrix: abcd matrix of the otpics
-        part_name: name of the optical part
-    -------
-    the function for abcm_matrix are defined in "abcd.py"
-    '''
-    def __init__(self, start_position=0, stop_position=0, 
-                 abcd_matrix=np.matrix([[1, 0], [0, 1]]), 
-                 part_name="Optics_Part"):
-        self.start_position=start_position
-        self.stop_position=stop_position
-        self.abcd_matrix=abcd_matrix
-        self.part_name=part_name
 #
 class Optical_Path(object):
     '''
