@@ -3,6 +3,7 @@ dependencies:
 - python=3.4.2
 - numpy > 1.9
 - scipy
+- sympy
 - pandas
 - matplotlib
 - ipython
