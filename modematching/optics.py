@@ -2,8 +2,6 @@ import math
 import operator
 import os
 #
-from . import opo
-from . import abcd
 import numpy as np
 #
 #            
@@ -53,9 +51,6 @@ class Interface(Optics):
                          stop_position  = center_positon + thickness/2.0, 
                          abcd_matrix=_M_slab, 
                          part_name=slab_name)
-        
-        
-class Interface(Optics):
         
         
         

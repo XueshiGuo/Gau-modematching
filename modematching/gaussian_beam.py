@@ -2,10 +2,9 @@ import math
 import operator
 import os
 #
-from . import opo
-from . import abcd
-from . import memory
+from .memory import MemoryTree
 from .optics import *
+from . import abcd
 import numpy as np
 #
 from numpy import pi, conj
@@ -92,7 +91,7 @@ class Optical_Path(object):
         self.optics_dict= optics_dict
         self.beam_dict= beam_dict
         self.path_length=path_length
-        if MemTree == None or type(MemTree) == memory.MemoryTree:
+        if MemTree == None or type(MemTree) == MemoryTree:
             self.in_MemTree = MemTree # read from .yml
         else:
             raise TypeError('MemTree should be a MemoryTree object from .yml file')
@@ -104,12 +103,12 @@ class Optical_Path(object):
         '''
         _configdir = os.path.join(os.path.dirname(__file__), "optical_path_config")
         _file = os.path.join(_configdir, filename+'.yml')
-        _c = memory.MemoryTree(_file)
+        _c = MemoryTree(_file)
         return cls.from_MemTree(_c)
     #
     @classmethod
     def from_MemTree(cls,MemTree):
-        if not type(MemTree) == memory.MemoryTree:
+        if not type(MemTree) == MemoryTree:
             raise TypeError("a MemTree for optical path is needed")
         _beam = MemTree.beam
         _optics = MemTree.optics
