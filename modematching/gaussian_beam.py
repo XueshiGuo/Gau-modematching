@@ -155,7 +155,7 @@ class Optical_Path(object):
         p1="Optics --- "
         print(p1)
         for x in self.optics_dict.values():
-            print( '\t'+x.part_name +": @" + str(x.start_position) )
+            print( '\t'+x.part_name+": @" + str(x.start_position) )
         p2="Beams --- "
         print(p2)
         for x in self.beam_dict.values():

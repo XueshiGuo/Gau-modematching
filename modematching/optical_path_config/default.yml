@@ -2,7 +2,7 @@
 # 50.0 rather than 50 might be necessary when unsing Python 2
 general:
   unit: mm
-  path_length: 500.0
+  path_length: 2000.0
 # Now only lens works
 optics:
   lens_1:
@@ -10,7 +10,16 @@ optics:
     position: 50.0
   lens_2:
     focal_length: 25.4
-    position: 130.0
+    position: 130.6
+  lens_3:
+    focal_length: 200
+    position: 480.8
+  lens_4:
+    focal_length: 36
+    position: 689.2
+  lens_5:
+    focal_length: 150
+    position: 839
 # ---------------------------------   
 # Init. Methods ---- w_z_div, w0_z0
 # ---------------------------------  
@@ -33,4 +42,4 @@ beam:
     refrective_n: 1.0
     w0_z0:
     - 0.32
-    - 300.0   
+    - 659.2  
