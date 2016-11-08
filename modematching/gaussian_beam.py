@@ -107,6 +107,14 @@ class Optical_Path(object):
         _file = os.path.join(_configdir, filename+'.yml')
         _c = MemoryTree(_file)
         return cls.from_MemTree(_c)
+
+    @classmethod
+    def load_yml_from_full_path(cls, filepath='/User/default.yml'):
+        '''
+        create optical path from .yml file with absolute path
+        '''
+        _c = MemoryTree(filepath)
+        return cls.from_MemTree(_c)
     #
     @classmethod
     def from_MemTree(cls,MemTree):
