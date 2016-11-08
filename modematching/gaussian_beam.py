@@ -23,8 +23,8 @@ def mode_overlap_q(q1, q2, lam=0.001552):
     -------
     float
     """
-    w0_1 = abcd.q2w0(q1)
-    w0_2 = abcd.q2w0(q2)
+    w0_1 = abcd.q2w0(q1,lam)
+    w0_2 = abcd.q2w0(q2,lam)
     _s  = np.real(q1)-np.real(q2)
     return 4 / ((w0_1/w0_2 + w0_2/w0_1)**2 + (_s*lam/np.pi)**2/(w0_1**2 * w0_2**2))
 #
@@ -47,16 +47,17 @@ class Gaussian_Beam(object):
         self.z0 = z0
         self.lam = lam
         self.n = n # here n is the RI of the media out of optics
-        self.q0 = abcd.w02q(w0=self.w0, n=self.n)
+        self.q0 = abcd.w02q(w0=self.w0, lam=self.lam, n=self.n)
         self.zR = w0**2*pi*n/lam
-        self.div = abcd.q2div(q=self.q0, n=self.n)
+        self.div = abcd.q2div(q=self.q0, lam=self.lam, n=self.n)
         self.beam_name=beam_name
     #
     @classmethod
     def from_q(cls, q, z , lam=0.001552, n=1.0, beam_name="beam"):
         w0_ = abcd.q2w0(q)
         z0_ = z-np.real(q)
-        return cls(w0_, z0_, lam, n, beam_name)
+        lam_ = lam
+        return cls(w0_, z0_, lam_, n, beam_name)
     #
     @classmethod
     def from_w_div(cls, w, z, div, lam=0.001552, n=1.0, beam_name="beam"):
@@ -67,7 +68,8 @@ class Gaussian_Beam(object):
         w0_ = lam/np.tan(div*np.pi/180)/n/pi
         zR_ = w0_**2*pi*n/lam
         z0_ = z-np.sqrt((w/w0_)**2-1.0) * zR_
-        return cls(w0_, z0_, lam, n, beam_name)
+        lam_ = lam
+        return cls(w0_, z0_, lam_, n, beam_name)
     #
     def get_w(self,z):
         p_= abs(self.z0-z)
@@ -155,11 +157,11 @@ class Optical_Path(object):
         p1="Optics --- "
         print(p1)
         for x in self.optics_dict.values():
-            print( '\t'+x.part_name+": @" + str(x.start_position) )
+            print( '\t'+x.part_name+": @" + str(x.start_position)  )
         p2="Beams --- "
         print(p2)
         for x in self.beam_dict.values():
-            print( '\t'+x.beam_name +": z0 " + str(x.z0) + " w0 "+ str(x.w0))
+            print( '\t'+x.beam_name +": z0 " + str(x.z0) + " w0 "+ str(x.w0)+'@'+ str(x.lam))
     #
     def plotdata_OP(self, points=500):
         '''
@@ -178,7 +180,7 @@ class Optical_Path(object):
         # generate y to plot from each Gaussian beam
         _Bplot=[]
         for b in self.beam_dict.values():
-            w_to_plot=[abcd.q2w(abcd.qpropagate(b.z0, b.q0, self.Olist_qp, z)) for z in zs_to_plot]
+            w_to_plot=[abcd.q2w(abcd.qpropagate(b.z0, b.q0, self.Olist_qp, z),b.lam) for z in zs_to_plot]
             _Bplot.append(w_to_plot)
         return [zs_to_plot,_Bplot]
     #

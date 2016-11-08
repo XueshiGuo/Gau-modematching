@@ -1,2 +1,4 @@
 *.pyc
 .ipynb_checkpoints/*
+.idea/*
+modematching/optical_path_config/*

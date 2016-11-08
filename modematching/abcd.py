@@ -13,7 +13,7 @@ import numpy as np
 from numpy import pi, conj
 
 
-def wR2q(w, R, n=1, lam = 0.001552):
+def wR2q(w, R, lam, n=1):
     """
     q = wR2q(w, R, n=1)
     --------------
@@ -23,7 +23,7 @@ def wR2q(w, R, n=1, lam = 0.001552):
     return 1/(1/R - 1j * lam/n / (pi * w**2))
     
     
-def w02q(w0, n=1, lam = 0.001552):
+def w02q(w0, lam, n=1 ):
     """
     q = w02q(w0, n=1)
     ------------
@@ -32,7 +32,7 @@ def w02q(w0, n=1, lam = 0.001552):
     """
     return 1j * pi * w0**2 / (lam/n)
 
-def q2w(q, n=1, lam = 0.001552):
+def q2w(q, lam, n=1):
     """
     w = q2w(q, n=1)
     ----------
@@ -52,7 +52,7 @@ def q2R(q):
     return 1/ np.real(1 / q)
     
 
-def q2w0(q, n=1, lam = 0.001552):
+def q2w0(q, lam, n=1):
     """
     w0 = q2w0(q, n=1)
     ------------
@@ -62,14 +62,14 @@ def q2w0(q, n=1, lam = 0.001552):
     return np.sqrt(np.imag(q) * lam/n / pi)
     
     
-def q2div(q, n=1, lam = 0.001552):
+def q2div(q, lam, n=1):
     """
     div = q2div(q, n=1)
     --------------
     Get the far-field beam divergence for a given q-parameter.
     n is the medium's refractive index.
     """
-    return lam/n / (pi * q2w0(q))
+    return lam/n / (pi * q2w0(q, lam))
     
     
 def qABCD(q, M):
