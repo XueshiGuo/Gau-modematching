@@ -15,6 +15,7 @@ class Example(QtGui.QMainWindow):
     def initUI(self):
 
         # buttons
+        self.plotWidget = pg.PlotWidget(title="Plotted Gaussian Beams")
         self.qbtn = QtGui.QPushButton('Quit', self)
         self.qbtn.clicked.connect(QtCore.QCoreApplication.instance().quit)
         self.run_catlab_rp2 = QtGui.QPushButton("catlab2")
@@ -26,6 +27,9 @@ class Example(QtGui.QMainWindow):
         self.plot_button.clicked.connect(self.start_mode_matching_plot)
         #
         self.yml_display=QtGui.QTextEdit("hehe")
+
+        #
+        self.matching_value_Widget=QtGui.QLabel("here shows the modematching efficiency")
 
         # yml reading layout
         yml_layoutH=QtGui.QHBoxLayout()
@@ -40,17 +44,32 @@ class Example(QtGui.QMainWindow):
         #Buttons_layout_V.addWidget(self.run_catlab_rp2)
         #Buttons_layout_V.addWidget(self.run_catlab_rp3)
         Buttons_layout_V.addLayout(yml_layoutV)
-        Buttons_layout_V.addWidget(self.qbtn)
+        #Buttons_layout_V.addWidget(self.qbtn)
         #
         Buttons_layout_H = QtGui.QHBoxLayout()
         #Buttons_layout_H.addStretch(1)
         Buttons_layout_H.addLayout(Buttons_layout_V)
         #Buttons_layout_H.addStretch(1)
         #
-        Center_Widget = QtGui.QWidget()
-        Center_Widget.setLayout(Buttons_layout_H)
+        ButtonWidget=QtGui.QWidget()
+        ButtonWidget.setLayout(Buttons_layout_H)
+        Dock_Widget = QtGui.QDockWidget("Simulation", self)
+        Dock_Widget.setWidget(ButtonWidget)
         #
-        self.setCentralWidget(Center_Widget)
+        MoveOpticsWidget=QtGui.QWidget()
+        MoveOpticsWidget_layout=QtGui.QHBoxLayout()
+        MoveOpticsWidget_layout.addWidget(self.matching_value_Widget)
+        MoveOpticsWidget.setLayout(MoveOpticsWidget_layout)
+        #
+        CentralWidget=QtGui.QWidget()
+        CentralLayout=QtGui.QVBoxLayout()
+        CentralLayout.addWidget(MoveOpticsWidget)
+        CentralLayout.addWidget(self.plotWidget)
+        CentralLayout.addWidget(self.qbtn)
+        CentralWidget.setLayout(CentralLayout)
+        #
+        self.setCentralWidget(CentralWidget)
+        self.addDockWidget(QtCore.Qt.LeftDockWidgetArea,Dock_Widget)
 
         # center windows and message bar
         self.setGeometry(300, 300, 640, 480)
@@ -75,17 +94,13 @@ class Example(QtGui.QMainWindow):
     def start_mode_matching_plot(self):
         a = OP.load_yml_from_full_path(filepath=self.config_file_path.text())
         b = a.plotdata_OP()
-        plotWidget = pg.plot(title="Three plot curves")
-        #for i in range(3):
-        #    plotWidget.plot(x, y[i], pen=(i, 3))
-        ## setting pen=(i,3) automaticaly creates three different-colored pens
         for yn in b[1]:
             _color = (random.random() * 255,
-                      random.random() * 255,
+                      255,
                       random.random() * 255)
-            a=plotWidget.plot(b[0], yn)
+            a=self.plotWidget.plot(b[0], yn)
             ng_yn= [-x for x in yn]
-            c=plotWidget.plot(b[0], ng_yn)
+            c=self.plotWidget.plot(b[0], ng_yn)
             a.setPen(color=_color, width=2)
             c.setPen(color=_color, width=2)
 
